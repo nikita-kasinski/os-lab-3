@@ -1,5 +1,5 @@
 f = -Iinclude
-obj = obj/main.o
+obj = obj/main.o obj/marker.o
 run: build
 	./bin/main
 build: dirs $(obj)
@@ -9,4 +9,4 @@ dirs:
 obj/%.o: src/%.cpp
 	g++ $(f) -c $< -o $@
 clean:
-	rm bin/main.exe || rm obj/*.o
+	rm bin/main || rm obj/*.o
