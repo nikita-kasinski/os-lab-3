@@ -3,10 +3,11 @@
 
 int main()
 {
-    std::cout << "Hello world\n";
-    int first_id = 1;
-    DWORD marker_id;
-    HANDLE marker_handle = CreateThread(NULL, 0, marker, (void*) &first_id, 0, &marker_id);
-    WaitForSingleObject(marker_handle, INFINITE);
+    int n;
+    std::cout << "Enter array size:\n";
+    std::cin >> n;
+    int *array = new int[n];
+    //HANDLE marker_handle = CreateThread(NULL, 0, marker, (void*) &first_id, 0, &marker_id);
+    delete[] array;
     return 0;
 }
