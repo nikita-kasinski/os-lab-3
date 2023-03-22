@@ -14,34 +14,39 @@ DWORD WINAPI marker(LPVOID _args)
     CRITICAL_SECTION *iocs = args.iocs;
     CRITICAL_SECTION *wcs = args.wcs;
     EnterCriticalSection(iocs);
-    std::cout << "Create marker with id " << id << "\n";
+    std::cout << "Create marker with id " << id + 1 << "\n";
     LeaveCriticalSection(iocs);
-    std::string eventName = "Marker event " + std::to_string(id);
-    HANDLE event = CreateEvent(NULL, TRUE, TRUE, eventName.c_str());
-
-    std::mt19937 rand(id);
+    std::string eventName = "Marker event " + std::to_string(id + 1);
+    std::string workEventName = "Work event " + std::to_string(id + 1);
+    HANDLE event = CreateEvent(NULL, TRUE, FALSE, eventName.c_str());
+    HANDLE workEvent = CreateEvent(NULL, TRUE, FALSE, workEventName.c_str());
+    std::mt19937 mrand(id);
     while(true)
     {
-        int pos = rand() % n;
+        int pos = mrand() % n;
         EnterCriticalSection(wcs);
         if (array[pos] == 0)
         {
             Sleep(5);
-            array[pos] = id;
+            array[pos] = id + 1;
             Sleep(5);
             LeaveCriticalSection(wcs);
         }
         else
         {
             LeaveCriticalSection(wcs);
+            EnterCriticalSection(iocs);
+            std::cout << "Marker " << id + 1 << " is waiting\n";
+            LeaveCriticalSection(iocs);
             SetEvent(event);
-            WaitForSingleObject(event, INFINITE);
-            if (finish[id] == 1)
+            ResetEvent(workEvent);
+            WaitForSingleObject(workEvent, INFINITE);
+            if (finish[id] == 1) 
             {
                 EnterCriticalSection(wcs);
                 for (size_t i = 0; i < n; ++i)
                 {
-                    if (array[i] == id)
+                    if (array[i] == id + 1)
                     {
                         array[i] = 0;
                     }
