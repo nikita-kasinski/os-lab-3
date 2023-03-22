@@ -11,6 +11,7 @@ DWORD WINAPI marker(LPVOID _args)
     int* array = args.array;
     int n = args.n;
     int* finish = args.finish;
+    int cnt = 0;
     CRITICAL_SECTION *iocs = args.iocs;
     CRITICAL_SECTION *wcs = args.wcs;
     EnterCriticalSection(iocs);
@@ -29,6 +30,7 @@ DWORD WINAPI marker(LPVOID _args)
         {
             Sleep(5);
             array[pos] = id + 1;
+            ++cnt;
             Sleep(5);
             LeaveCriticalSection(wcs);
         }
@@ -37,12 +39,15 @@ DWORD WINAPI marker(LPVOID _args)
             LeaveCriticalSection(wcs);
             EnterCriticalSection(iocs);
             std::cout << "Marker " << id + 1 << " is waiting\n";
+            std::cout << "Marked indeces: " << cnt << "\n";
+            std::cout << "Filled index: " << pos << "\n\n";
             LeaveCriticalSection(iocs);
             SetEvent(event);
             ResetEvent(workEvent);
             WaitForSingleObject(workEvent, INFINITE);
             if (finish[id] == 1) 
             {
+                cnt = 0;
                 EnterCriticalSection(wcs);
                 for (size_t i = 0; i < n; ++i)
                 {
