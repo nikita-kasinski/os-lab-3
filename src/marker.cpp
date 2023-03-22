@@ -10,10 +10,13 @@ DWORD WINAPI marker(LPVOID _args)
     int* array = args.array;
     int n = args.n;
     int* finish = args.finish;
-    CRITICAL_SECTION iocs = *args.iocs;
-    CRITICAL_SECTION wcs = *args.wcs;
-    std::string eventName = "Marker event " + std::to_string(id);
-    HANDLE event = CreateEvent(NULL, TRUE, TRUE, eventName.c_str());
+    CRITICAL_SECTION *iocs = args.iocs;
+    CRITICAL_SECTION *wcs = args.wcs;
+    EnterCriticalSection(iocs);
     std::cout << "Create marker with id " << id << "\n";
+    LeaveCriticalSection(iocs);
+    std::string eventName = "Marker event " + std::to_string(id);
+    //HANDLE event = CreateEvent(NULL, TRUE, TRUE, eventName.c_str());
     //SetEvent(event);
+    return 1;
 }
