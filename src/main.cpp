@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
+#include <string.h>
 #include "marker.h"
-#include "string.h"
+#include "struct_args.h"
 
 int main()
 {
@@ -19,16 +20,37 @@ int main()
     HANDLE *events = new HANDLE[marker_count];
     for (size_t i = 0; i < marker_count; ++i)
     {
-        std::string eventName = "Marker event" + std::to_string(i);
+        std::string eventName = "Marker event " + std::to_string(i);
         std::wstring wEventName = std::wstring(eventName.begin(), eventName.end());
-        events[i] = CreateEvent(NULL, TRUE, TRUE, wEventName.c_str());
+        events[i] = CreateEvent(NULL, TRUE, TRUE, eventName.c_str());
     }
-    //HANDLE marker_handle = CreateThread(NULL, 0, marker, (void*) &first_id, 0, &marker_id);
+    HANDLE *markers = new HANDLE[marker_count];
+    MarkerArgs *args = new MarkerArgs[marker_count];
+    unsigned long int *markerThreadIds = new unsigned long int[marker_count];
+    int *finish = new int[marker_count];
+    CRITICAL_SECTION iocs, wcs;
+    InitializeCriticalSection(&iocs);
+    InitializeCriticalSection(&wcs);
+    for (size_t i = 0; i < marker_count; ++i)
+    {
+        finish[i] = 0;
+        args[i].id = i;
+        args[i].n = n;
+        args[i].array = array;
+        args[i].finish = finish;
+        args[i].iocs = &iocs;
+        args[i].wcs = &wcs;
+        markers[i] = CreateThread(NULL, 0, marker, (void*)(&args[i]), 0, &markerThreadIds[i]);
+    }
+    WaitForMultipleObjects(marker_count, markers, TRUE, INFINITE);
     delete[] array;
     for (size_t i = 0; i < marker_count; ++i)
     {
         CloseHandle(events[i]);
+        CloseHandle(markers[i]);
     }
     delete[] events;
+    delete[] args;
+    delete[] finish;
     return 0;
 }
