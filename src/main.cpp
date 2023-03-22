@@ -28,9 +28,10 @@ int main()
     MarkerArgs *args = new MarkerArgs[marker_count];
     unsigned long int *markerThreadIds = new unsigned long int[marker_count];
     int *finish = new int[marker_count];
-    CRITICAL_SECTION iocs, wcs;
-    InitializeCriticalSection(&iocs);
-    InitializeCriticalSection(&wcs);
+    CRITICAL_SECTION *iocs = new CRITICAL_SECTION;
+    CRITICAL_SECTION *wcs = new CRITICAL_SECTION;
+    InitializeCriticalSection(iocs);
+    InitializeCriticalSection(wcs);
     for (size_t i = 0; i < marker_count; ++i)
     {
         finish[i] = 0;
@@ -38,17 +39,21 @@ int main()
         args[i].n = n;
         args[i].array = array;
         args[i].finish = finish;
-        args[i].iocs = &iocs;
-        args[i].wcs = &wcs;
+        args[i].iocs = iocs;
+        args[i].wcs = wcs;
         markers[i] = CreateThread(NULL, 0, marker, (void*)(&args[i]), 0, &markerThreadIds[i]);
     }
     WaitForMultipleObjects(marker_count, markers, TRUE, INFINITE);
-    delete[] array;
     for (size_t i = 0; i < marker_count; ++i)
     {
         CloseHandle(events[i]);
         CloseHandle(markers[i]);
     }
+    DeleteCriticalSection(iocs);
+    DeleteCriticalSection(wcs);
+    delete iocs;
+    delete wcs;
+    delete[] array;
     delete[] events;
     delete[] args;
     delete[] finish;
