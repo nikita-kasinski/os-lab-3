@@ -3,7 +3,7 @@
 
 struct MarkerArgs
 {
-    int id = -1;
+    size_t id = 0;
     size_t size = 0;
     int* array = nullptr;
     const int* finish = nullptr;
