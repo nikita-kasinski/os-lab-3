@@ -9,7 +9,7 @@ private:
     static constexpr int valueToInitialize = 0; 
 public:
     // initializes array with valueToInitialize
-    static void initializeArray(int* array, size_t size);
+    static int* initializeArray(size_t size);
 
     // reads integer from in, puts it into destination. If something went wrong returns false
     static bool readPositiveInteger(
