@@ -4,9 +4,9 @@
 struct MarkerArgs
 {
     int id = -1;
-    int n = 0;
+    size_t size = 0;
     int* array = nullptr;
-    int* finish = nullptr;
+    const int* finish = nullptr;
     CRITICAL_SECTION *iocs = nullptr;
     CRITICAL_SECTION *wcs = nullptr;
 };
