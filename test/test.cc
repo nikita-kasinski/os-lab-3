@@ -35,4 +35,25 @@ TEST(TestInitializeArray, TestSize7)
     {
         EXPECT_EQ(array[i], Utility::valueToInitialize);
     }
+    delete[] array;
+}
+
+TEST(TestOutputArray, TestSize1)
+{
+    constexpr size_t size = 1;
+    int array[size] = {7};
+    std::ostringstream out;
+    std::string expectedAnswer = "7 \n";
+    Utility::outputArray(out, array, size);
+    EXPECT_EQ(out.str(), expectedAnswer);
+}
+
+TEST(TestOutputArray, TestSize4)
+{
+    constexpr size_t size = 4;
+    int array[size] = {5, 2, 7, 1};
+    std::ostringstream out;
+    std::string expectedAnswer = "5 2 7 1 \n";
+    Utility::outputArray(out, array, size);
+    EXPECT_EQ(out.str(), expectedAnswer);
 }
