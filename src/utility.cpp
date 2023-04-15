@@ -78,3 +78,14 @@ size_t Utility::inputWorkingMarkerId(
 
     return static_cast<size_t>(id);
 }
+
+void Utility::clearArray(int *array, const size_t &size, const int idToClear)
+{
+    for (size_t i = 0; i < size; ++i)
+    {
+        if (array[i] == idToClear + 1)
+        {
+            array[i] = 0;
+        }
+    }
+}
