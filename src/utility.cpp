@@ -85,7 +85,7 @@ void Utility::clearArray(int *array, const size_t &size, const int idToClear)
     {
         if (array[i] == idToClear + 1)
         {
-            array[i] = 0;
+            array[i] = Utility::valueToInitialize;
         }
     }
 }
