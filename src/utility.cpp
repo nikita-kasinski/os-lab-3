@@ -1,5 +1,17 @@
 #include "utility.h"
 
+
+int* Utility::initializeArray(size_t size)
+{
+    int* array = new int[size];
+    for (size_t i = 0; i < size; ++i)
+    {
+        array[i] = valueToInitialize;
+    }
+
+    return array;
+}
+
 bool Utility::readPositiveInteger(
     std::istream &in,
     std::ostream &out,
@@ -12,7 +24,7 @@ bool Utility::readPositiveInteger(
     in >> initialValue;
     if (initialValue <= 0)
     {
-        out << "Marker count must be positive integer. Abort\n";
+        out << inputFailedPrompt;
         return false;
     }
 
