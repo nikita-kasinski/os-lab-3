@@ -31,7 +31,7 @@ bool Utility::readPositiveInteger(
     return true;
 }
 
-void Utility::outputArray(std::ostream& out, const int* array, size_t size) 
+void Utility::outputArray(std::ostream &out, const int *array, const size_t &size)
 {
     for (size_t i = 0; i < size; ++i)
     {
@@ -40,7 +40,7 @@ void Utility::outputArray(std::ostream& out, const int* array, size_t size)
     out << "\n";
 }
 
-void Utility::outputMarkers(std::ostream &out, const int *finish, size_t markerCount)
+void Utility::outputMarkers(std::ostream &out, const int *finish, const size_t &markerCount)
 {
     for (size_t i = 0; i < markerCount; ++i)
     {
@@ -50,4 +50,31 @@ void Utility::outputMarkers(std::ostream &out, const int *finish, size_t markerC
         }
     }
     out << "\n";
+}
+
+size_t Utility::inputWorkingMarkerId(
+    std::istream &in,
+    std::ostream &out,
+    const int *finish,
+    const size_t &size,
+    const std::string inputPrompt)
+{
+    bool correct = false;
+    int id;
+    while (!correct)
+    {
+        out << inputPrompt;
+        in >> id;
+        id--;
+        if (id < 0)
+        {
+            continue;
+        }
+        if (finish[id] == 0)
+        {
+            correct = true;
+        }
+    }
+
+    return static_cast<size_t>(id);
 }
