@@ -1,9 +1,8 @@
 #include "utility.h"
 
-
-int* Utility::initializeArray(size_t size)
+int *Utility::initializeArray(size_t size)
 {
-    int* array = new int[size];
+    int *array = new int[size];
     for (size_t i = 0; i < size; ++i)
     {
         array[i] = valueToInitialize;
@@ -30,4 +29,23 @@ bool Utility::readPositiveInteger(
 
     destination = static_cast<size_t>(initialValue);
     return true;
+}
+
+void Utility::outputArray(std::ostream& out, const int* array, size_t size) 
+{
+    for (size_t i = 0; i < size; ++i)
+    {
+        out << array[i] << ' ';
+    }
+}
+
+void Utility::outputMarkers(std::ostream &out, const int *finish, size_t markerCount)
+{
+    for (size_t i = 0; i < markerCount; ++i)
+    {
+        if (finish[i] == 0)
+        {
+            out << i + 1 << ' ';
+        }
+    }
 }
