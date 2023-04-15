@@ -87,3 +87,23 @@ TEST(TestOutputMarkers, TestMarkerCount7Enabled3)
     Utility::outputMarkers(out, finish, markerCount);
     EXPECT_EQ(out.str(), expectedAnswer);
 }
+
+TEST(TestInputWorkingMarkerId, TestFirstInput)
+{
+    std::istringstream in("1");
+    std::ostringstream out;
+    constexpr size_t markerCount = 5;
+    int finish[markerCount] = {0, 1, 1, 0, 0};
+    size_t id = Utility::inputWorkingMarkerId(in, out, finish, markerCount, "");
+    EXPECT_EQ(id, 0);
+}
+
+TEST(TestInputWorkingMarkerId, TestSecondInputThirdMarker)
+{
+    std::istringstream in("0 4\n");
+    std::ostringstream out;
+    constexpr size_t markerCount = 5;
+    int finish[markerCount] = {1, 1, 1, 0, 0};
+    size_t id = Utility::inputWorkingMarkerId(in, out, finish, markerCount, "");
+    EXPECT_EQ(id, 3);
+}
