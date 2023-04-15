@@ -57,3 +57,33 @@ TEST(TestOutputArray, TestSize4)
     Utility::outputArray(out, array, size);
     EXPECT_EQ(out.str(), expectedAnswer);
 }
+
+TEST(TestOutputMarkers, TestMarkerCount0)
+{
+    constexpr size_t markerCount = 0;
+    int *finish = nullptr;
+    std::ostringstream out;
+    std::string expectedAnswer = "\n";
+    Utility::outputMarkers(out, finish, markerCount);
+    EXPECT_EQ(out.str(), expectedAnswer);
+}
+
+TEST(TestOutputMarkers, TestMarkerCount1Enabled)
+{
+    constexpr size_t markerCount = 1;
+    int finish[markerCount] = {1};
+    std::ostringstream out;
+    std::string expectedAnswer = "\n";
+    Utility::outputMarkers(out, finish, markerCount);
+    EXPECT_EQ(out.str(), expectedAnswer);
+}
+
+TEST(TestOutputMarkers, TestMarkerCount7Enabled3)
+{
+    constexpr size_t markerCount = 7;
+    int finish[markerCount] = {1, 0, 0, 0, 1, 1, 1};
+    std::ostringstream out;
+    std::string expectedAnswer = "2 3 4 \n";
+    Utility::outputMarkers(out, finish, markerCount);
+    EXPECT_EQ(out.str(), expectedAnswer);
+}
