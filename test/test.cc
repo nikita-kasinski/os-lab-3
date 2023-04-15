@@ -107,3 +107,45 @@ TEST(TestInputWorkingMarkerId, TestSecondInputThirdMarker)
     size_t id = Utility::inputWorkingMarkerId(in, out, finish, markerCount, "");
     EXPECT_EQ(id, 3);
 }
+
+TEST(TestClearArray, TestZeroEncounters)
+{
+    constexpr size_t size = 5;
+    size_t idToClear = 4;
+    int array[size] = {1, 2, 2, 3, 4};
+    int expectedArray[size] = {1, 2, 2, 3, 4};
+
+    Utility::clearArray(array, size, idToClear);
+    for (size_t i = 0; i < size; ++i)
+    {
+        EXPECT_EQ(array[i], expectedArray[i]);
+    }
+}
+
+TEST(TestClearArray, TestAllEncounters)
+{
+    constexpr size_t size = 5;
+    size_t idToClear = 4;
+    int array[size] = {5, 5, 5, 5, 5};
+
+    Utility::clearArray(array, size, idToClear);
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        EXPECT_EQ(array[i], Utility::valueToInitialize);
+    }
+}
+
+TEST(TestClearArray, TestSeveralEncounters)
+{
+    constexpr size_t size = 5;
+    size_t idToClear = 4;
+    int array[size] = {0, 3, 5, 1, 5};
+    int expectedArray[size] = {0, 3, 0, 1, 0};
+    Utility::clearArray(array, size, idToClear);
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        EXPECT_EQ(array[i], expectedArray[i]);
+    }
+}
