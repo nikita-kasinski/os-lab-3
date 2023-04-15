@@ -1,3 +1,4 @@
-*.o
-bin/main*
+obj/*
+bin/*
 .vscode/*
+cov/*
