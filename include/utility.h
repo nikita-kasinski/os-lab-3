@@ -19,4 +19,9 @@ public:
         const std::string& inputPrompt, 
         const std::string& inputFailedPrompt);
 
+    // outputs array to out
+    static void outputArray(std::ostream& out, const int* array, size_t size);
+
+    // outputs working markers
+    static void outputMarkers(std::ostream& out, const int* finish, size_t markerCount);
 };
