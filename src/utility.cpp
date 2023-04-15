@@ -37,6 +37,7 @@ void Utility::outputArray(std::ostream& out, const int* array, size_t size)
     {
         out << array[i] << ' ';
     }
+    out << "\n";
 }
 
 void Utility::outputMarkers(std::ostream &out, const int *finish, size_t markerCount)
@@ -48,4 +49,5 @@ void Utility::outputMarkers(std::ostream &out, const int *finish, size_t markerC
             out << i + 1 << ' ';
         }
     }
+    out << "\n";
 }
