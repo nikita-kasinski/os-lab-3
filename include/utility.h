@@ -6,9 +6,11 @@
 class Utility
 {
 private:
-    static constexpr int valueToInitialize = 0;
 
 public:
+
+    static constexpr int valueToInitialize = 0;
+    
     // initializes array with valueToInitialize
     static int *initializeArray(size_t size);
 
